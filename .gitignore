@@ -18,6 +18,7 @@ build/
 htmlcov/
 .coverage
 coverage.xml
+*.db
 
 # ========================
 # Frontend (Node.js/Vite/TypeScript)
