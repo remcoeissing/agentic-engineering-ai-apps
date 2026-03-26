@@ -71,7 +71,25 @@ not include. This surfaces the exact requirement before you touch any code.
 
 ---
 
-### Step 2 — Write a mini-spec for the fix (`/speckit.specify`)
+### Step 2 — Reproduce the bug
+
+1. Make sure the backend is running: `cd backend && uvicorn src.main:app --reload`
+2. Start a session via the UI or via curl:
+   ```bash
+   curl -X POST http://127.0.0.1:8000/sessions/start \
+        -H "Content-Type: application/json" \
+        -d '{"configured_minutes": 25}'
+   ```
+3. Immediately call `GET /sessions/today`:
+   ```bash
+   curl http://127.0.0.1:8000/sessions/today
+   ```
+4. Wait ~60 seconds and call it again.
+5. **Observe**: `total_focused_minutes` is > 0 and grows over time.
+
+---
+
+### Step 3 — Write a mini-spec for the fix (`/speckit.specify`)
 
 Use `/speckit.specify` to encode the corrected rule as a precise user story.
 
@@ -89,24 +107,6 @@ Use `/speckit.specify` to encode the corrected rule as a precise user story.
 - An acceptance criterion along the lines of: *"Given a running session with 10 minutes
   elapsed, `GET /sessions/today` returns `total_focused_minutes: 0`."*
 - Use this criterion verbatim as your test assertion in Step 4.
-
----
-
-### Step 3 — Reproduce the bug
-
-1. Make sure the backend is running: `cd backend && uvicorn src.main:app --reload`
-2. Start a session via the UI (or via curl):
-   ```bash
-   curl -X POST http://127.0.0.1:8000/sessions/start \
-        -H "Content-Type: application/json" \
-        -d '{"configured_minutes": 25}'
-   ```
-3. Immediately call `GET /sessions/today`:
-   ```bash
-   curl http://127.0.0.1:8000/sessions/today
-   ```
-4. Wait ~60 seconds and call it again.
-5. **Observe**: `total_focused_minutes` is > 0 and grows over time.
 
 ---
 

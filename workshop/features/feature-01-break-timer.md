@@ -44,8 +44,8 @@ No backend changes are needed — `break_minutes` is already persisted and retur
 ## Workshop Exercise
 
 Work through the steps below in order. This is a **new feature** rather than a bug fix, so
-the workflow starts with `/speckit.specify` to draft the user story, then uses
-`/speckit.tasks` to plan the work before any code is written.
+the workflow uses the full specification pipeline: `/speckit.specify` → `/speckit.plan` →
+`/speckit.tasks` before any code is written.
 
 Speckit will automatically create the branch `workshop/feature-01-break-timer` and
 save spec artifacts to `specs/feature-01-break-timer/` when you run the first command below.
@@ -73,35 +73,45 @@ Use `/speckit.specify` to encode the feature as a user story with testable accep
   1. *"When a session completes, the timer transitions to BREAK state and counts down from
      `break_minutes`."*
   2. *"Clicking Skip Break returns the timer to IDLE before the countdown ends."*
-- Save these criteria — you'll encode them as test assertions in Step 3.
+- Save these criteria — you'll encode them as test assertions in Step 4.
 
 ---
 
-### Step 2 — Generate implementation tasks (`/speckit.tasks`)
+### Step 2 — Create the implementation plan (`/speckit.plan`)
 
-Use `/speckit.tasks` to break the feature into ordered, concrete implementation steps before
-writing a line of code.
+Use `/speckit.plan` to translate the spec into a technical design before breaking it into tasks.
+
+**Run this command:**
+```
+/speckit.plan
+```
+
+**What to look for in the output:**
+- A `plan.md` written to `specs/feature-01-break-timer/`.
+- Identification of the affected components (`useTimerService`, `TimerDisplay`, `Controls`,
+  `index.css`) and how they interact.
+- Confirmation that no backend changes are required — `break_minutes` is already persisted
+  and returned by `GET /settings`.
+
+---
+
+### Step 3 — Generate implementation tasks (`/speckit.tasks`)
+
+Use `/speckit.tasks` to break the plan into ordered, concrete implementation steps.
 
 **Run this command:**
 ```
 /speckit.tasks
 ```
 
-**Describe the scope:**
-> "Generate tasks for the break timer feature: (1) extend the `TimerStore` Zustand store
-> with a `break` status and `breakRemainingSeconds` field, (2) after a completed countdown
-> in `useTimerService`, start a break countdown from `settings.break_minutes`, (3) add a
-> Skip Break button in `Controls.tsx` visible only during break state, (4) update
-> `TimerDisplay` to show the BREAK label and `data-status='break'`, (5) add CSS for the
-> break state, (6) write Vitest unit tests for each new behaviour."
-
 **What to look for in the output:**
-- A numbered task list you can work through sequentially.
-- Each task should reference a specific file and function.
+- A numbered `tasks.md` covering: extending the timer state, starting and ticking the break
+  countdown, adding the Skip Break button, updating `TimerDisplay`, adding CSS, and writing tests.
+- Independent tasks marked `[P]` that are safe to work on in parallel.
 
 ---
 
-### Step 3 — Write failing tests
+### Step 4 — Write failing tests
 
 Before changing any implementation code, write tests for the two acceptance criteria:
 
@@ -128,9 +138,9 @@ cd frontend && npm test
 
 ---
 
-### Step 4 — Implement the feature
+### Step 5 — Implement the feature
 
-Work through the tasks generated in Step 2, in order:
+Work through the tasks generated in Step 3, in order:
 
 1. **Extend the store** — add `break` to the `TimerStatus` union type and add
    `breakRemainingSeconds: number` to the Zustand store slice.
@@ -154,7 +164,7 @@ Work through the tasks generated in Step 2, in order:
 
 ---
 
-### Step 5 — Verify
+### Step 6 — Verify
 
 ```bash
 # All frontend tests must pass (including the two new ones)

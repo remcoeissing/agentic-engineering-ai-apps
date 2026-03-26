@@ -74,7 +74,18 @@ how the session list should look and behave.
 
 ---
 
-### Step 2 — Write a mini-spec for the fix (`/speckit.specify`)
+### Step 2 — Reproduce the bug
+
+1. Start the backend: `cd backend && uvicorn src.main:app --reload`
+2. Start the frontend: `cd frontend && npm run dev`
+3. Click **Start**, then immediately **Stop** — repeat 8–10 times to generate several sessions.
+4. **Observe**:
+   - Sessions are listed oldest-first (earliest time at the top).
+   - The page scrolls rather than the list panel.
+
+---
+
+### Step 3 — Write a mini-spec for the fix (`/speckit.specify`)
 
 Use `/speckit.specify` to express the corrected behaviour as a user story with testable
 acceptance criteria.
@@ -91,21 +102,10 @@ acceptance criteria.
 
 **What to look for in the output:**
 - An acceptance criterion such as: *"Given sessions A (09:00) and B (09:30), B is rendered
-  before A in the list."*  
+  before A in the list."*
 - A second criterion: *"Given more sessions than fit in the panel, a scroll bar appears within
   the list container, not on the page."*
 - Use these as your test assertions in Step 4.
-
----
-
-### Step 3 — Reproduce the bug
-
-1. Start the backend: `cd backend && uvicorn src.main:app --reload`
-2. Start the frontend: `cd frontend && npm run dev`
-3. Click **Start**, then immediately **Stop** — repeat 8–10 times to generate several sessions.
-4. **Observe**:
-   - Sessions are listed oldest-first (earliest time at the top).
-   - The page scrolls rather than the list panel.
 
 ---
 

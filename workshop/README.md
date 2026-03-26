@@ -14,21 +14,22 @@ writing a single line of code.
 For every bug, follow this 5-step loop:
 
 ```
-1. CLARIFY   → understand the intended behaviour from the spec
+1. CLARIFY   → understand the intended behaviour from the spec  (/speckit.clarify)
 2. REPRODUCE → confirm the bug exists and is observable
-3. SPECIFY   → write a one-sentence user story for the fix (/speckit.specify)
+3. SPECIFY   → write a one-sentence user story for the fix      (/speckit.specify)
 4. TEST      → write a failing test that encodes the expected behaviour
 5. FIX       → change the minimum amount of code to make the test green
 ```
 
-For the feature exercise, replace steps 1–2 with:
+For the feature exercise, use the full specification pipeline:
 
 ```
-1. SPECIFY   → write the user story and acceptance criteria (/speckit.specify)
-2. TASKS     → break it into ordered implementation steps (/speckit.tasks)
-3. TEST      → write failing tests for each acceptance criterion
-4. IMPLEMENT → work through the task list
-5. VERIFY    → run all tests, lint, and typecheck
+1. SPECIFY   → write the user story and acceptance criteria      (/speckit.specify)
+2. PLAN      → translate the spec into a technical design        (/speckit.plan)
+3. TASKS     → break the plan into ordered implementation steps  (/speckit.tasks)
+4. TEST      → write failing tests for each acceptance criterion
+5. IMPLEMENT → work through the task list
+6. VERIFY    → run all tests, lint, and typecheck
 ```
 
 The speckit commands below map directly to these loops. Each exercise file shows exactly which
@@ -63,7 +64,43 @@ need to do anything manually.
 
 | # | File | Title | Component | Branch | Speckit Focus |
 |---|------|-------|-----------|--------|---------------|
-| 1 | [feature-01-break-timer.md](features/feature-01-break-timer.md) | Break Timer | Frontend | `workshop/feature-01-break-timer` | `/speckit.specify` → `/speckit.tasks` |
+| 1 | [feature-01-break-timer.md](features/feature-01-break-timer.md) | Break Timer | Frontend | `workshop/feature-01-break-timer` | `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` |
+
+---
+
+## The SDD Specification Pipeline
+
+The SDD methodology is significantly enhanced through three commands that automate the
+specification → planning → tasking workflow.
+
+### `/speckit.specify`
+
+Transforms a simple feature description into a complete, structured specification with automatic
+repository management:
+
+- **Automatic feature numbering** — scans existing specs to determine the next feature number (e.g., `001`, `002`, `003`)
+- **Branch creation** — generates a semantic branch name from your description and creates it automatically
+- **Template-based generation** — copies and fills the feature specification template with your requirements
+- **Directory structure** — creates the `specs/[branch-name]/` directory ready for all related documents
+
+### `/speckit.plan`
+
+Once a feature specification exists, creates a comprehensive implementation plan:
+
+- **Specification analysis** — reads and understands the feature requirements, user stories, and acceptance criteria
+- **Constitutional compliance** — ensures alignment with project constitution and architectural principles
+- **Technical translation** — converts business requirements into technical architecture and implementation details
+- **Detailed documentation** — generates supporting documents for data models, API contracts, and test scenarios
+- **Quickstart validation** — produces a quickstart guide capturing key validation scenarios
+
+### `/speckit.tasks`
+
+After a plan is created, analyzes the plan and related design documents to generate an executable task list:
+
+- **Inputs** — reads `plan.md` (required) and, if present, `data-model.md`, `contracts/`, and `research.md`
+- **Task derivation** — converts contracts, entities, and scenarios into specific tasks
+- **Parallelization** — marks independent tasks `[P]` and outlines safe parallel groups
+- **Output** — writes `tasks.md` in the feature directory, ready for execution by a task agent
 
 ---
 
@@ -73,7 +110,8 @@ need to do anything manually.
 |---------|----------------|
 | `/speckit.clarify` | Ask targeted questions about an underspecified behaviour before writing code |
 | `/speckit.specify` | Encode a new or corrected behaviour as a user story with acceptance criteria |
-| `/speckit.tasks` | Break a spec change into concrete, ordered implementation tasks |
+| `/speckit.plan` | Translate a completed spec into a technical implementation plan |
+| `/speckit.tasks` | Break a plan into concrete, ordered, parallelizable implementation tasks |
 | `/speckit.checklist` | Generate a verification checklist for a specific change |
 | `/speckit.analyze` | Audit consistency between spec, plan, and tasks after making changes |
 
