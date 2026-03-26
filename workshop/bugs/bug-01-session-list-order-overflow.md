@@ -47,7 +47,7 @@ Work through the steps below in order. Each step tells you **what speckit comman
 **what to type**, and **what to do with the output**.
 
 This bug fix uses the same full specification pipeline as a new feature:
-`/speckit.clarify` → `/speckit.specify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement`
+`/speckit.specify` → `/speckit.clarify` → `/speckit.plan` → `/speckit.tasks` → `/speckit.implement`
 — speckit handles everything including writing tests, applying the fix, and running verification.
 
 Speckit will automatically create the branch `workshop/bug-01-session-list-order-overflow` and
@@ -67,33 +67,11 @@ Understand what is currently going on first by reproducing the bug.
 
 ---
 
-### Step 2 — Clarify the intended behaviour (`/speckit.clarify`)
-
-Before touching any code, use `/speckit.clarify` to ask the spec targeted questions about
-how the session list should look and behave.
-
-**Run this command:**
-```
-/speckit.clarify
-```
-
-**When prompted, describe the gap you found:**
-> "The Today summary lists sessions with the oldest at the top and no scroll. I need to
-> confirm: what sort order should the session list use in the UI, and should the list have
-> a maximum visible height so it doesn't push content off the page?"
-
-**What to look for in the output:**
-- Confirmation that the UI must display sessions **most recent first** (descending), even
-  though the API returns them ascending.
-- Confirmation that the panel must be scrollable when there are many sessions — the page
-  layout must not be disturbed by a long list.
-
----
-
-### Step 3 — Write a mini-spec for the fix (`/speckit.specify`)
+### Step 2 — Write a mini-spec for the fix (`/speckit.specify`)
 
 Use `/speckit.specify` to express the corrected behaviour as a user story with testable
-acceptance criteria.
+acceptance criteria. This creates the spec file that `/speckit.clarify` will interrogate
+in the next step.
 
 **Run this command:**
 ```
@@ -110,7 +88,30 @@ acceptance criteria.
   before A in the list."*
 - A second criterion: *"Given more sessions than fit in the panel, a scroll bar appears within
   the list container, not on the page."*
-- Use these as your test assertions in Step 4.
+- A `spec.md` written to your spec directory — this is required before running clarify.
+
+---
+
+### Step 3 — Clarify the intended behaviour (`/speckit.clarify`)
+
+Now that a spec exists, use `/speckit.clarify` to ask targeted questions and resolve any
+remaining ambiguities before planning the implementation.
+
+**Run this command:**
+```
+/speckit.clarify
+```
+
+**When prompted, describe the gap you found:**
+> "The Today summary lists sessions with the oldest at the top and no scroll. I need to
+> confirm: what sort order should the session list use in the UI, and should the list have
+> a maximum visible height so it doesn't push content off the page?"
+
+**What to look for in the output:**
+- Confirmation that the UI must display sessions **most recent first** (descending), even
+  though the API returns them ascending.
+- Confirmation that the panel must be scrollable when there are many sessions — the page
+  layout must not be disturbed by a long list.
 
 ---
 
