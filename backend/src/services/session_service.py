@@ -280,7 +280,7 @@ async def get_today(db: aiosqlite.Connection) -> TodayResponse:
         """SELECT id, start_at, end_at, status, focused_seconds, note
            FROM sessions
            WHERE date_key = ?
-           ORDER BY start_at ASC""",
+           ORDER BY start_at DESC""",
         (today,),
     ) as cur:
         rows = await cur.fetchall()

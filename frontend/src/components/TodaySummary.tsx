@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import type { SessionSummaryResponse } from '../api/types';
 
 interface Props {
@@ -42,6 +42,14 @@ export const TodaySummary = React.memo(function TodaySummary({
   sessions,
   totalFocusedMinutes,
 }: Props) {
+  const listRef = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (typeof listRef.current?.scrollTo === 'function') {
+      listRef.current.scrollTo({ top: 0 });
+    }
+  }, [sessions.length]);
+
   return (
     <section className="today-summary" aria-label="Today's focus summary">
       <h2 className="today-total">
@@ -50,8 +58,8 @@ export const TodaySummary = React.memo(function TodaySummary({
       {sessions.length === 0 ? (
         <p className="today-empty">No sessions yet today.</p>
       ) : (
-        <ul className="session-list" aria-label="Today's sessions">
-          {sessions.map((s) => (
+        <ul className="session-list" aria-label="Today's sessions" ref={listRef} tabIndex={0}>
+          {[...sessions].reverse().map((s) => (
             <SessionRow key={s.id} session={s} />
           ))}
         </ul>

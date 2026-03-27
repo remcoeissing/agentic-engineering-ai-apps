@@ -11,6 +11,7 @@ Auto-generated from all feature plans. Last updated: 2026-03-27
 - N/A — break state is display-only; not persisted to backend (006-break-timer)
 - Python 3.11 backend; TypeScript 5.5 / React 18 frontend + FastAPI 0.110, Pydantic 2.6, aiosqlite 0.20, React 18, Zustand 4.5, Vite 5 (002-auto-break-timer)
 - Local SQLite database (`focus_timer.db`) for sessions, settings, and new break records (002-auto-break-timer)
+- TypeScript 5.5 (frontend), Python 3.11+ (backend) + React 18.3, Vite 5.4, Zustand 4.5 (frontend); FastAPI 0.110+, aiosqlite 0.20+ (backend) (003-short-name-session)
 
 - Python 3.11 (backend) · TypeScript 5.x / Node 20+ (frontend) + FastAPI 0.110+, SQLite via `aiosqlite` + raw SQL (backend) · React 18, Vite 5, React Testing Library (frontend) (001-focus-timer)
 
@@ -31,9 +32,9 @@ cd src; pytest; ruff check .
 Python 3.11 (backend) · TypeScript 5.x / Node 20+ (frontend): Follow standard conventions
 
 ## Recent Changes
+- 003-short-name-session: Added TypeScript 5.5 (frontend), Python 3.11+ (backend) + React 18.3, Vite 5.4, Zustand 4.5 (frontend); FastAPI 0.110+, aiosqlite 0.20+ (backend)
 - 002-auto-break-timer: Added Python 3.11 backend; TypeScript 5.5 / React 18 frontend + FastAPI 0.110, Pydantic 2.6, aiosqlite 0.20, React 18, Zustand 4.5, Vite 5
 - 006-break-timer: Added TypeScript 5 (strict mode enabled) + React 18, Zustand (state store), Vite (dev/build)
-- 004-fix-total-rounding: Added Python 3.12 (backend), TypeScript / React 18 (frontend) + FastAPI, aiosqlite, Pydantic (backend); Vite, React (frontend)
 
 
 <!-- MANUAL ADDITIONS START -->
