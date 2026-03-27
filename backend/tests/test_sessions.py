@@ -261,3 +261,21 @@ async def test_today_multiple_sessions_total(client: AsyncClient) -> None:
     # total_focused_minutes should be sum of focused_seconds // 60
     total_fs = sum(s["focused_seconds"] or 0 for s in data["sessions"])
     assert data["total_focused_minutes"] == total_fs // 60
+
+
+@pytest.mark.asyncio
+async def test_today_sessions_returned_in_descending_order(client: AsyncClient) -> None:
+    """Sessions must be returned newest-first (ORDER BY start_at DESC)."""
+    for _ in range(3):
+        s = await start_session(client, minutes=1)
+        await client.post(f"/sessions/{s['id']}/complete")
+        await asyncio.sleep(0.05)
+
+    resp = await client.get("/sessions/today")
+    data = resp.json()
+    sessions = data["sessions"]
+    assert len(sessions) == 3
+    timestamps = [s["start_at"] for s in sessions]
+    assert timestamps == sorted(timestamps, reverse=True), (
+        f"Expected descending order, got: {timestamps}"
+    )
